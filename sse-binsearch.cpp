@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <smmintrin.h>
 #include "sse-binsearch.h"
 
 void SSEBinSearch::prepare() {
@@ -10,10 +11,10 @@ void SSEBinSearch::prepare() {
     const auto i2 = a + 3*(b - a)/5;
     const auto i3 = a + 4*(b - a)/5;
 
-    keys[0] = data[i0];
-    keys[1] = data[i1];
-    keys[2] = data[i2];
-    keys[3] = data[i3];
+    bounds[0] = data[i0];
+    bounds[1] = data[i1];
+    bounds[2] = data[i2];
+    bounds[3] = data[i3];
 
     for (int i=0; i < 16; i++) {
         indices[i].a = a;
@@ -39,20 +40,12 @@ void SSEBinSearch::prepare() {
 
 int SSEBinSearch::search(uint32_t key) const {
 
-    uint32_t mask;
+    const __m128i vecbnd = _mm_loadu_si128(reinterpret_cast<const __m128i*>(bounds));
+    const __m128i keys   = _mm_set1_epi32(key);
+    const __m128i cmp    = _mm_cmpgt_epi32(keys, vecbnd);
 
-    __asm__ __volatile__(
-        "movdqa     %2,     %%xmm0          \n"
-        "movd       %1,     %%xmm1          \n"
-        "pshufd     $0,     %%xmm1, %%xmm1  \n"
-        "pcmpgtd    %%xmm0, %%xmm1          \n"
-        "movmskps   %%xmm1, %0              \n"
-        : "=r" (mask)
-        : "r" (key),
-          "m" (keys)
-    );
+    const auto mask = _mm_movemask_ps((__m128)(cmp));
 
-    //return BinSearch::search(key);
     return binsearch(key, indices[mask].a, indices[mask].b);
 }
 

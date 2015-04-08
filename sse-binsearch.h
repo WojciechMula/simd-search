@@ -6,7 +6,7 @@
 
 class SSEBinSearch: public BinSearch {
 #define SIMD_ALIGN __attribute__((aligned(16)))
-    uint32_t keys[4] SIMD_ALIGN;
+    uint32_t bounds[4] SIMD_ALIGN;
 #undef SIMD_ALIGN
 
     struct pair_t {

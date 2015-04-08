@@ -1,14 +1,12 @@
 #ifndef SSE_LINEARSEARCH_H
 #define SSE_LINEARSEARCH_H
 
-#include "binsearch.h"
+#include "search_base.h"
 
 
-class SSELinearSearch: public BinSearch {
+class SSELinearSearch: public SearchBase {
 public:
-    SSELinearSearch(const uint32vector_t& data)
-        : BinSearch(data) {
-    }
+    SSELinearSearch(const uint32vector_t& data) : SearchBase(data) {}
 
     int search(uint32_t key) const;
 };

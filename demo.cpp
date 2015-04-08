@@ -20,7 +20,7 @@ volatile int result;
 
 
 template <typename T>
-double measure(const uint32vector_t& data, uint32_t count) {
+double measure(const uint32vector_t& data, uint32_t iteration_count) {
 
     T b(data);
 
@@ -29,7 +29,7 @@ double measure(const uint32vector_t& data, uint32_t count) {
     int k = 0;
 
     const auto t1 = get_time();
-    for (auto j=0u; j < count; j++) {
+    for (auto j=0u; j < iteration_count; j++) {
         for (auto i=0u; i < n; i++) {
             k += b.search(i);
         }
@@ -43,33 +43,58 @@ double measure(const uint32vector_t& data, uint32_t count) {
 
 
 template <typename T>
-void run(const uint32vector_t& data, uint32_t count) {
+void run(const uint32vector_t& data, uint32_t iteration_count) {
 
-    const double dt = measure<T>(data, count);
+    const double dt = measure<T>(data, iteration_count);
     
     printf("\t%10.6f", dt);
 }
 
 
+void print_help(const char* prog);
+
+
 int main(int argc, char* argv[]) {
     uint32vector_t data;
-    const auto n = strtol(argv[1], nullptr, 10);
-    const auto count = strtol(argv[2], nullptr, 10);
-    data.resize(n);
-    
-    for (auto i=0; i < n; i++) {
-        data[i] = i * 0.5;
+
+    if (argc != 3) {
+        print_help(argv[0]);
+        return EXIT_FAILURE;
     }
 
-    printf("%ld", n);
+    const long size = strtol(argv[1], nullptr, 10);
+    const long iteration_count = strtol(argv[2], nullptr, 10);
+    
+    if (size <= 0) {
+        puts("size must be greater than 0");
+        return EXIT_FAILURE;
+    }
+    
+    if (iteration_count <= 0) {
+        puts("iteration_count must be greater than 0");
+        return EXIT_FAILURE;
+    }
+
+    data.resize(size);
+    
+    for (auto i=0; i < size; i++) {
+        data[i] = i;
+    }
+
+    printf("%ld", size);
     fflush(stdout);
  
-    run<BinSearch>(data, count);
-    run<LinearSearch>(data, count);
-    run<SSEBinSearch>(data, count);
-    run<SSELinearSearch>(data, count);
+    run<BinSearch>(data, iteration_count);
+    run<LinearSearch>(data, iteration_count);
+    run<SSEBinSearch>(data, iteration_count);
+    run<SSELinearSearch>(data, iteration_count);
 
     putchar('\n');
 
     return EXIT_SUCCESS;
+}
+
+
+void print_help(const char* prog) {
+    printf("%s size iteration_count\n", prog);
 }

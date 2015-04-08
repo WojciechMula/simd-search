@@ -1,15 +1,12 @@
 #ifndef BINSEARCH_H
 #define BINSEARCH_H
 
-#include "common.h"
+#include "search_base.h"
 
 
-class BinSearch {
-protected:
-    const uint32vector_t& data;
-
+class BinSearch: public SearchBase {
 public:
-    BinSearch(const uint32vector_t& data) : data(data) {}
+    BinSearch(const uint32vector_t& data) : SearchBase(data) {}
 
     int search(uint32_t key) const {
         return binsearch(key, 0, data.size() - 1);

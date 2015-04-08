@@ -1,12 +1,12 @@
 #ifndef LINEARSEARCH_H
 #define LINEARSEARCH_H
 
-#include "binsearch.h"
+#include "search_base.h"
 
-class LinearSearch: public BinSearch {
+class LinearSearch: public SearchBase {
 
 public:
-    LinearSearch(const uint32vector_t& data) : BinSearch(data) {}
+    LinearSearch(const uint32vector_t& data) : SearchBase(data) {}
 
     int search(uint32_t key) const {
 

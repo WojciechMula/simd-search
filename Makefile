@@ -9,17 +9,17 @@ all: demo
 demo: demo.cpp $(OBJS)
 	$(CC) $(FLAGS) demo.cpp $(OBJS) -o demo
 
-binsearch.o: binsearch.cpp binsearch.h common.h
+binsearch.o: binsearch.cpp binsearch.h search_base.h
 	$(CC) $(FLAGS) -c binsearch.cpp -o binsearch.o
 
-linearsearch.o: linearsearch.cpp linearsearch.h common.h
+linearsearch.o: linearsearch.cpp linearsearch.h search_base.h
 	$(CC) $(FLAGS) -c linearsearch.cpp -o linearsearch.o
 
-sse-binsearch.o: sse-binsearch.cpp sse-binsearch.h common.h binsearch.h
+sse-binsearch.o: sse-binsearch.cpp sse-binsearch.h search_base.h
 	$(CC) $(FLAGS) -c sse-binsearch.cpp -o sse-binsearch.o
 
-sse-linearsearch.o: sse-linearsearch.cpp sse-linearsearch.h common.h
+sse-linearsearch.o: sse-linearsearch.cpp sse-linearsearch.h search_base.h
 	$(CC) $(FLAGS) -c sse-linearsearch.cpp -o sse-linearsearch.o
 
 clean:
-	rm -f demo *.o
+	rm -f demo $(OBJS)
