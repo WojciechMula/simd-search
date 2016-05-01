@@ -7,6 +7,7 @@
 #include "binsearch.h"
 #include "linearsearch.h"
 #include "sse-binsearch.h"
+#include "sse-binsearch-block.h"
 #include "sse-linearsearch.h"
 
 
@@ -48,6 +49,7 @@ void run(const uint32vector_t& data, uint32_t iteration_count) {
     const double dt = measure<T>(data, iteration_count);
     
     printf("\t%10.6f", dt);
+    fflush(stdout);
 }
 
 
@@ -85,8 +87,9 @@ int main(int argc, char* argv[]) {
     fflush(stdout);
  
     run<BinSearch>(data, iteration_count);
-    run<LinearSearch>(data, iteration_count);
     run<SSEBinSearch>(data, iteration_count);
+    run<SSEBinSearchBlock>(data, iteration_count);
+    run<LinearSearch>(data, iteration_count);
     run<SSELinearSearch>(data, iteration_count);
 
     putchar('\n');
