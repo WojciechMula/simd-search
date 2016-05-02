@@ -6,6 +6,7 @@
 
 #include "binsearch.h"
 #include "linearsearch.h"
+#include "binsearch-linear.h"
 #include "sse-binsearch.h"
 #include "sse-binsearch-block.h"
 #include "sse-linearsearch.h"
@@ -87,6 +88,7 @@ int main(int argc, char* argv[]) {
     fflush(stdout);
  
     run<BinSearch>(data, iteration_count);
+    run<BinSearchLinear>(data, iteration_count);
     run<SSEBinSearch>(data, iteration_count);
     run<SSEBinSearchBlock>(data, iteration_count);
     run<LinearSearch>(data, iteration_count);

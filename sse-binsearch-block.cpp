@@ -22,7 +22,7 @@ int SSEBinSearchBlock::search(uint32_t key) const {
         if (key < data[c]) {
             b = c - 1;
 
-            if (false && b >= 4) {
+            if (b >= 4) {
                 v = _mm_loadu_si128(reinterpret_cast<const __m128i*>(&data[b - 4]));
                 v = _mm_cmpeq_epi32(v, keys);
                 const uint16_t mask = _mm_movemask_epi8(v);

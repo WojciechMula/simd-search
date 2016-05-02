@@ -6,6 +6,7 @@
 
 #include "binsearch.h"
 #include "linearsearch.h"
+#include "binsearch-linear.h"
 #include "sse-binsearch.h"
 #include "sse-binsearch-block.h"
 #include "sse-linearsearch.h"
@@ -23,6 +24,7 @@ bool verify(int size) {
     LinearSearch        ls(data);
     SSELinearSearch     ls_sse(data);
     BinSearch           bs(data);
+    BinSearchLinear     bs_lin(data);
     SSEBinSearch        bs_sse(data);
     SSEBinSearchBlock   bs_sse_block(data);
 
@@ -40,6 +42,13 @@ bool verify(int size) {
         {   const auto result = bs.search(i);
             if (result != reference) {
                 printf("BinSearch failed: expected %d, actual %d\n", reference, result);
+                return false;
+            }
+        }
+
+        {   const auto result = bs_lin.search(i);
+            if (result != reference) {
+                printf("BinSearchLinear failed: expected %d, actual %d\n", reference, result);
                 return false;
             }
         }

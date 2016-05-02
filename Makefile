@@ -2,7 +2,7 @@
 
 FLAGS=-std=c++11 -Wall -Wextra -pedantic -O3
 
-OBJS=binsearch.o linearsearch.o sse-binsearch.o sse-linearsearch.o sse-binsearch-block.o
+OBJS=binsearch.o linearsearch.o binsearch-linear.o sse-binsearch.o sse-linearsearch.o sse-binsearch-block.o
 all: demo verify
 
 demo: demo.cpp $(OBJS)
@@ -16,6 +16,9 @@ binsearch.o: binsearch.cpp binsearch.h search_base.h
 
 linearsearch.o: linearsearch.cpp linearsearch.h search_base.h
 	$(CXX) $(FLAGS) -c linearsearch.cpp -o $@
+
+binsearch-linear.o: binsearch-linear.cpp binsearch-linear.h search_base.h
+	$(CXX) $(FLAGS) -c binsearch-linear.cpp -o $@
 
 sse-binsearch.o: sse-binsearch.cpp sse-binsearch.h search_base.h
 	$(CXX) $(FLAGS) -c sse-binsearch.cpp -o $@
