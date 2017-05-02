@@ -13,4 +13,6 @@ dictionary size and iteration count; program prints:
   * binary search,
   * linear search,
   * SIMD-ized binary search,
-  * SIMD-ized linear search.
+  * SIMD-ized linear search,
+  * binary search with fallback to linear search,
+  * binary search using SIMD-equal op around pivot.
